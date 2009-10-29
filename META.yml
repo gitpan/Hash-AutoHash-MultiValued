@@ -1,0 +1,33 @@
+---
+name: Hash-AutoHash-MultiValued
+version: 1.00
+author:
+  - 'Nat Goodman <natg@shore.net>'
+abstract: Object-oriented access to hash with multi-valued elements
+license: perl
+resources:
+  license: http://dev.perl.org/licenses/
+build_requires:
+  Exporter: 0
+  Test::Deep: 0
+  Test::More: 0.88
+requires:
+  Carp: 0
+  Hash::AutoHash: 1
+  Scalar::Util: 1.01
+  Tie::Hash: 1
+configure_requires:
+  Module::Build: 0.34
+provides:
+  Hash::AutoHash::MultiValued:
+    file: lib/Hash/AutoHash/MultiValued.pm
+    version: 1.00
+  Hash::AutoHash::MultiValued::helper:
+    file: lib/Hash/AutoHash/MultiValued.pm
+  Hash::AutoHash::MultiValued::tie:
+    file: lib/Hash/AutoHash/MultiValued.pm
+    version: 1.00
+generated_by: Module::Build version 0.34
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
