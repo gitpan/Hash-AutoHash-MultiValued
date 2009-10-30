@@ -1,6 +1,6 @@
 ---
 name: Hash-AutoHash-MultiValued
-version: 1.00
+version: 1.10
 author:
   - 'Nat Goodman <natg@shore.net>'
 abstract: Object-oriented access to hash with multi-valued elements
@@ -13,20 +13,19 @@ build_requires:
   Test::More: 0.88
 requires:
   Carp: 0
-  Hash::AutoHash: 1
-  Scalar::Util: 1.01
+  Hash::AutoHash: 1.1
   Tie::Hash: 1
 configure_requires:
   Module::Build: 0.34
 provides:
   Hash::AutoHash::MultiValued:
     file: lib/Hash/AutoHash/MultiValued.pm
-    version: 1.00
+    version: 1.10
   Hash::AutoHash::MultiValued::helper:
     file: lib/Hash/AutoHash/MultiValued.pm
   Hash::AutoHash::MultiValued::tie:
     file: lib/Hash/AutoHash/MultiValued.pm
-    version: 1.00
+    version: 1.10
 generated_by: Module::Build version 0.34
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html

@@ -6,7 +6,6 @@ use Carp;
 use Test::More;
 use Test::Deep;
 use Exporter();
-use Tie::Hash::MultiValue;	# an example tied hash class
 use Hash::AutoHash;
 
 our @ISA=qw(Exporter);
@@ -16,6 +15,7 @@ our @EXPORT=qw(as_bool ordinal report _report
 	       is_autohash is_hash is_object is_self is_tie 
 	       is_autohash_hash is_autohash_object is_autohash_self is_autohash_tie
 	       test_subclass_special_keys
+	       test_class_methods @COMMON_SPECIAL_KEYS
 	       $autohash %hash %tie $object);
 
 # globals used in all tests
@@ -364,4 +364,63 @@ sub test_subclass_special_keys (*) {
   diag(scalar(@ok)." keys have correct values: @ok");
   diag(scalar(@fail)." keys have wrong values: @fail");
 }
+# used by xxx.020.class_methods.t for many (probably all) subclasses 
+sub test_class_methods {
+  my $class=shift;
+  my $import=@_? shift: undef;	# an importable function
+  # It's kinda silly to test new and import, since we'd have failed miserably long ago
+  #   if these were broken :) Included here for completeness.
+  $autohash=new $class;
+  ok($autohash,'new');
+  is(ref $autohash,$class,"new returned $class object - sanity check");
+
+  if ($import) {
+    eval {import $class ($import)};
+    ok(!$@,'import: success');
+  }
+  eval {import $class qw(import);};
+  ok($@=~/not exported/,'import: not exported');
+  eval {import $class qw(not_defined);};
+  ok($@=~/not exported/,'import: not defined');
+
+  my $can=can $class('can');
+  is(ref $can,'CODE','can: can');
+  my $can=can $class('not_defined');
+  ok(!$can,'can: can\'t');
+
+  if ($class ne 'Hash::AutoHash') {
+    my $isa=$class->isa($class);
+    is($isa,1,"isa: is $class");
+  }
+  my $isa=$class->isa('Hash::AutoHash');
+  is($isa,1,'isa: is Hash::AutoHash');
+  my $isa=$class->isa('UNIVERSAL');
+  is($isa,1,'isa: is UNIVERSAL');
+  my $isa=$class->isa('not_defined');
+  ok(!$isa,'isa: isn\'t');
+
+  # Test DOES in perls > 5.10. 
+  # Note: $^V returns real string in perls > 5.10, and v-string in earlier perls
+  #   regexp below fails in earlier perls. this is okay
+  my($perl_main,$perl_minor)=$^V=~/^v(\d+)\.(\d+)/; # perl version
+  if ($perl_main==5 && $perl_minor>=10) {
+    my $does=DOES $class('Hash::AutoHash');
+    is($does,1,'DOES: is Hash::AutoHash');
+    my $does=DOES $class('UNIVERSAL');
+    is($does,1,'DOES: is UNIVERSAL');
+    my $does=DOES $class('not_defined');
+    ok(!$does,'DOES: doesn\'t');
+  }
+
+  my $version=VERSION $class;
+  my $correct=eval "\$$class"."::VERSION";
+  is($version,$correct,'VERSION');
+
+  my @imports=eval "\@$class"."::EXPORT_OK";
+  import $class (@imports);
+  pass('import all functions');
+}
+# used by xxx.020.special_keys.t for many (probably all) subclasses 
+our @COMMON_SPECIAL_KEYS=qw(import new can isa DOES VERSION AUTOLOAD DESTROY);
+
 1;

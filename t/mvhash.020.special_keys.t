@@ -1,12 +1,11 @@
 use lib qw(t);
 use Carp;
-use Hash::AutoHash::MultiValued;
 use Test::More;
 use Test::Deep;
 use mvhashUtil;
+use Hash::AutoHash::MultiValued;
 
-my @keys=
-  (qw(import new can isa VERSION AUTOLOAD DESTROY),@Hash::AutoHash::SUBCLASS_EXPORT_OK);
+my @keys=(@COMMON_SPECIAL_KEYS,@Hash::AutoHash::SUBCLASS_EXPORT_OK);
 
 # test object class for sanity sake
 my $mvhash=new Hash::AutoHash::MultiValued;

@@ -9,7 +9,7 @@ use Hash::AutoHash::MultiValued;
 use autohashUtil;
 
 our @ISA=qw(Exporter);
-our @EXPORT=qw(cmp_mvhash _cmp_mvhash $VERBOSE);
+our @EXPORT=qw(cmp_mvhash _cmp_mvhash test_class_methods @COMMON_SPECIAL_KEYS $VERBOSE);
 
 # test contents of wrapper and external hash or object
 # NG 09-07-29: generalize to allow any actual autohash or correct value

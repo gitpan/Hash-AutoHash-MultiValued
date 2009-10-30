@@ -1,5 +1,5 @@
 package Hash::AutoHash::MultiValued;
-our $VERSION='1.00';
+our $VERSION='1.10';
 #################################################################################
 #
 # Author:  Nat Goodman
@@ -52,7 +52,7 @@ sub _new {
 # Tied hash which implements Hash::AutoHash::MultiValued
 #################################################################################
 package Hash::AutoHash::MultiValued::tie;
-our $VERSION='1.00';
+our $VERSION='1.10';
 use strict;
 use Tie::Hash;
 use List::MoreUtils qw(uniq);
@@ -137,7 +137,7 @@ Hash::AutoHash::MultiValued - Object-oriented access to hash with multi-valued e
 
 =head1 VERSION
 
-Version 1.00
+Version 1.10
 
 =head1 SYNOPSIS
 
