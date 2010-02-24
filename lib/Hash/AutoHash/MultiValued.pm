@@ -1,5 +1,5 @@
 package Hash::AutoHash::MultiValued;
-our $VERSION='1.10';
+our $VERSION='1.11';
 #################################################################################
 #
 # Author:  Nat Goodman
@@ -52,7 +52,7 @@ sub _new {
 # Tied hash which implements Hash::AutoHash::MultiValued
 #################################################################################
 package Hash::AutoHash::MultiValued::tie;
-our $VERSION='1.10';
+our $VERSION='1.11';
 use strict;
 use Tie::Hash;
 use List::MoreUtils qw(uniq);
@@ -137,7 +137,7 @@ Hash::AutoHash::MultiValued - Object-oriented access to hash with multi-valued e
 
 =head1 VERSION
 
-Version 1.10
+Version 1.11
 
 =head1 SYNOPSIS
 
@@ -287,9 +287,7 @@ You can do the same thing more concisely with this cryptic one-liner.
 
 Filtering occurs when you run the 'filter' method. It does not occur on every update.
 
-=head2 Functions and methods
-
-The constructor is 'new'.
+=head2 new
 
  Title   : new 
  Usage   : $mvhash=new Hash::AutoHash::MultiValued
@@ -307,7 +305,9 @@ The constructor is 'new'.
  Notes   : Be aware when passing args as HASH that Perl does NOT preserve
            duplicate keys.
 
-The next two methods must be invoked on the B<tied object implementing the hash>.
+=head2 unique
+
+This  method must be invoked on the B<tied object implementing the hash>.
 
  Title   : unique 
  Usage   : $unique=tied(%$mvhash)->unique
@@ -342,6 +342,10 @@ The next two methods must be invoked on the B<tied object implementing the hash>
            through the duplicate-removal process. Thereafter, duplicate checking
            occurs on every update.
 
+=head2 filter
+
+This  method must be invoked on the B<tied object implementing the hash>.
+
  Title   : filter 
  Usage   : $filter=tied(%$mvhash)->filter
            -- OR --
@@ -375,6 +379,8 @@ Function: Set function used for filtering and perform filtering if true.
            filtering occurs immediately by running all existing elements through
            the filter function.
 
+=head2 Functions inherited from Hash::AutoHash
+
 The following functions are inherited from L<Hash::AutoHash> and
 operate exactly as there. You must import them into your namespace
 before use.
@@ -385,16 +391,20 @@ before use.
        autohash_keys autohash_values 
        autohash_count autohash_empty autohash_notempty)
 
-Aliasing a Hash::AutoHash object to a regular hash avoids the need to
-dereference the variable when using hash notation.  As a convenience,
-the autoahash_alias functions can link in either direction depending
-on whether the given object exists.
+=head3 autohash_alias
+
+Aliasing a Hash::AutoHash::MultiValued object to a regular hash avoids
+the need to dereference the variable when using hash notation.  As a
+convenience, the autoahash_alias functions can link in either
+direction depending on whether the given object exists.
 
  Title   : autohash_alias
  Usage   : autohash_alias($mvhash,%hash)
  Function: Link $mvhash to %hash such that they will have exactly the same value.
  Args    : Hash::AutoHash::MultiValued object and hash 
  Returns : Hash::AutoHash::MultiValued object
+
+=head3 autohash_tied
 
 You can access the object implementing the tied hash using Perl's
 built-in tied function or the autohash_tied function inherited from
@@ -427,13 +437,15 @@ invoking methods on the tied object.
            Form 4. hash to which Hash::AutoHash::MultiValued object is aliased, 
              method name, optional list of parameters for method
 
-The next two functions provide wholesale manipulation of arguments.
+=head3 autohash_get
 
  Title   : autohash_get
  Usage   : ($name,$hobbies)=autohash_get($mvhash,qw(name hobbies))
  Function: Get values for multiple keys.
  Args    : Hash::AutoHash::MultiValued object and list of keys
  Returns : list of argument values
+
+=head3 autohash_set
 
  Title   : autohash_set
  Usage   : autohash_set($mvhash,name=>'Joe Plumber',first_name=>'Joe')
@@ -445,9 +457,13 @@ The next two functions provide wholesale manipulation of arguments.
            values
  Returns : Hash::AutoHash::MultiValued object
 
+=head3 Functions for hash-like operations
+
 The remaining functions provide hash-like operations on
 Hash::AutoHash::MultiValued objects. These are useful if you want to
 avoid hash notation all together.
+
+=head4 autohash_clear
 
  Title   : autohash_clear
  Usage   : autohash_clear($mvhash)
@@ -455,17 +471,23 @@ avoid hash notation all together.
  Args    : Hash::AutoHash::MultiValued object
  Returns : nothing
 
+=head4 autohash_delete
+
  Title   : autohash_delete
  Usage   : autohash_delete($mvhash,@keys)
  Function: Delete keys and their values from $mvhash.
  Args    : Hash::AutoHash::MultiValued object, list of keys
  Returns : nothing
 
+=head4 autohash_exists
+
  Title   : autohash_exists
  Usage   : if (autohash_exists($mvhash,$key)) { ... }
  Function: Test whether key is present in $mvhash.
  Args    : Hash::AutoHash::MultiValued object, key
  Returns : boolean
+
+=head4 autohash_each
 
  Title   : autohash_each
  Usage   : while (my($key,$value)=autohash_each($mvhash)) { ... }
@@ -476,11 +498,15 @@ avoid hash notation all together.
  Returns : list context: next key=>value pair in $mvhash or empty list at end
            scalar context: next key in $mvhash or undef at end
 
+=head4 autohash_keys
+
  Title   : autohash_keys
  Usage   : @keys=autohash_keys($mvhash)
  Function: Get all keys that are present in $mvhash
  Args    : Hash::AutoHash::MultiValued object
  Returns : list of keys
+
+=head4 autohash_values
 
  Title   : autohash_values
  Usage   : @values=autohash_values($mvhash)
@@ -488,17 +514,23 @@ avoid hash notation all together.
  Args    : Hash::AutoHash::MultiValued object
  Returns : list of values
 
+=head4 autohash_count
+
  Title   : autohash_count
  Usage   : $count=autohash_count($mvhash)
  Function: Get the number keys that are present in $mvhash
  Args    : Hash::AutoHash::MultiValued object
  Returns : number
 
+=head4 autohash_empty
+
  Title   : autohash_empty
  Usage   : if (autohash_empty($mvhash)) { ... }
  Function: Test whether $mvhash is empty
  Args    : Hash::AutoHash::MultiValued object
  Returns : boolean
+
+=head4 autohash_notempty
 
  Title   : autohash_notempty
  Usage   : if (autohash_notempty($mvhash)) { ... }
