@@ -3,6 +3,7 @@ Changes
 lib/Hash/AutoHash/MultiValued.pm
 Makefile.PL
 MANIFEST
+META.json
 META.yml
 README
 t/autohashUtil.pm
@@ -12,6 +13,7 @@ t/mvhash.002.pod.t
 t/mvhash.010.basics.t
 t/mvhash.020.class_methods.t
 t/mvhash.020.special_keys.t
+t/mvhash.020.universal.t
 t/mvhash.030.functions.t
 t/mvhash.031.alias.t
 t/mvhash.031.tied.t
