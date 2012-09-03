@@ -1,6 +1,10 @@
 Revision history for Hash-AutoHash-MultiValued
 
-1.12	2012-09-03
+1.13	2012-09-02
+	Fixed problem with version numbers in helper and tie packages causing
+	  PAUSE upload to fail
+
+1.12	2012-09-02
 	INCOMPATIBLE CHANGE: no longer possible to use method notation for keys
 	  with the same names as methods inherited from UNIVERSAL (the base  
 	  class of everything). These are  'can', 'isa', 'DOES', and 'VERSION'.
