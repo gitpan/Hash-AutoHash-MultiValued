@@ -37,18 +37,25 @@ cmp_mvhash('update as hash',$mvhash,
 	   {name=>[qw(Joe Plumber)],hobbies=>[qw(chess cooking go rowing)]});
 
 my @keys=keys %$mvhash;		# ('name','hobbies')
-cmp_deeply(\@keys,[qw(name hobbies)],'keys as hash');
+# NG 12-11-29: as of Perl 5.16 or so, the order of hash keys is randomized
+# cmp_deeply(\@keys,[qw(name hobbies)],'keys as hash');
+cmp_set(\@keys,[qw(name hobbies)],'keys as hash');
+
 my @values=values %$mvhash;	# (['Joe','Plumber'],
                                 #  ['chess','cooking','go','rowing'])
-cmp_deeply(\@values,[[qw(Joe Plumber)],[qw(chess cooking go rowing)]],'values as hash');
+# cmp_deeply(\@values,[[qw(Joe Plumber)],[qw(chess cooking go rowing)]],'values as hash');
+cmp_set(\@values,[[qw(Joe Plumber)],[qw(chess cooking go rowing)]],'values as hash');
+
 my(@keys,@values);		# NOT in docs. needed for testing
 while (my($key,$value)=each %$mvhash) {
 #  print "$key => @$value\n";	# prints each element as usual
   push(@keys,$key);		# NOT in docs. needed for testing
   push(@values,$value);		# NOT in docs. needed for testing
 }
-cmp_deeply(\@keys,[qw(name hobbies)],'each as hash (keys)');
-cmp_deeply(\@values,[[qw(Joe Plumber)],[qw(chess cooking go rowing)]],'each as hash (values)');
+# cmp_deeply(\@keys,[qw(name hobbies)],'each as hash (keys)');
+# cmp_deeply(\@values,[[qw(Joe Plumber)],[qw(chess cooking go rowing)]],'each as hash (values)');
+cmp_set(\@keys,[qw(name hobbies)],'each as hash (keys)');
+cmp_set(\@values,[[qw(Joe Plumber)],[qw(chess cooking go rowing)]],'each as hash (values)');
 
 delete $mvhash->{hobbies};	# no more hobbies
 cmp_mvhash('delete',$mvhash,{name=>[qw(Joe Plumber)]});
@@ -268,17 +275,22 @@ my(@keys,@values);
 my $mvhash=new Hash::AutoHash::MultiValued name=>'Joe',hobbies=>[qw(chess cooking)];
 cmp_mvhash('create example again',$mvhash,{name=>[qw(Joe)],hobbies=>[qw(chess cooking)]});
 while (my($key,$value)=autohash_each($mvhash)) { push(@keys,$key); push(@values,$value); }
-cmp_deeply(\@keys,[qw(name hobbies)],'autohash_each form 1 (keys)');
-cmp_deeply(\@values,[[qw(Joe)],[qw(chess cooking)]],'autohash_each form 1 (values)');
+# cmp_deeply(\@keys,[qw(name hobbies)],'autohash_each form 1 (keys)');
+# cmp_deeply(\@values,[[qw(Joe)],[qw(chess cooking)]],'autohash_each form 1 (values)');
+cmp_set(\@keys,[qw(name hobbies)],'autohash_each form 1 (keys)');
+cmp_set(\@values,[[qw(Joe)],[qw(chess cooking)]],'autohash_each form 1 (values)');
 my(@keys,@values);
 while (my $key=autohash_each($mvhash)) { push(@keys,$key); }
-cmp_deeply(\@keys,[qw(name hobbies)],'autohash_each form 2 (keys)');
+# cmp_deeply(\@keys,[qw(name hobbies)],'autohash_each form 2 (keys)');
+cmp_set(\@keys,[qw(name hobbies)],'autohash_each form 2 (keys)');
 
 my(@keys,@values);
 @keys=autohash_keys($mvhash);
-cmp_deeply(\@keys,[qw(name hobbies)],'autohash_keys');
+# cmp_deeply(\@keys,[qw(name hobbies)],'autohash_keys');
+cmp_set(\@keys,[qw(name hobbies)],'autohash_keys');
 @values=autohash_values($mvhash);
-cmp_deeply(\@values,[[qw(Joe)],[qw(chess cooking)]],'autohash_values');
+# cmp_deeply(\@values,[[qw(Joe)],[qw(chess cooking)]],'autohash_values');
+cmp_set(\@values,[[qw(Joe)],[qw(chess cooking)]],'autohash_values');
 
 my $count;
 $count=autohash_count($mvhash);
