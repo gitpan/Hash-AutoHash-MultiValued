@@ -7,5 +7,5 @@ BEGIN {
   use_ok('Hash::AutoHash');
   use_ok('Hash::AutoHash::MultiValued');
 }
-
+diag( "Testing Hash::AutoHash::MultiValued $Hash::AutoHash::MultiValued::VERSION, Perl $], $^X" );
 done_testing();
