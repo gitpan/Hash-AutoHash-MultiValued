@@ -1,5 +1,5 @@
 package Hash::AutoHash::MultiValued;
-our $VERSION='1.16';
+our $VERSION='1.17_01';
 $VERSION=eval $VERSION;		# I think this is the accepted idiom..
 
 #################################################################################
@@ -133,6 +133,7 @@ sub filter {
 }
 
 1;
+__END__ 
 
 =head1 NAME
 
@@ -140,7 +141,7 @@ Hash::AutoHash::MultiValued - Object-oriented access to hash with multi-valued e
 
 =head1 VERSION
 
-Version 1.16
+Version 1.17
 
 =head1 SYNOPSIS
 
